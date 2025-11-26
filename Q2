@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class CircularQueue {
+    int front, rear, size, capacity;
+    int* arr;
+public:
+    CircularQueue(int c) { capacity = c; front = -1; rear = -1; size = 0; arr = new int[c]; }
+    bool isFull() { return size == capacity; }
+    bool isEmpty() { return size == 0; }
+    void enqueue(int x) {
+        if(isFull()) return;
+        if(front == -1) front = 0;
+        rear = (rear + 1) % capacity;
+        arr[rear] = x;
+        size++;
+    }
+    void dequeue() {
+        if(isEmpty()) return;
+        if(front == rear) { front = rear = -1; size = 0; return; }
+        front = (front + 1) % capacity;
+        size--;
+    }
+    int peek() { return isEmpty() ? -1 : arr[front]; }
+    void display() {
+        if(isEmpty()) return;
+        int i = front;
+        while(true) {
+            cout << arr[i] << " ";
+            if(i == rear) break;
+            i = (i + 1) % capacity;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    CircularQueue q(5);
+    int choice, value;
+    while(true) {
+        cout << "1.Enqueue 2.Dequeue 3.Peek 4.Display 5.Exit\n";
+        cin >> choice;
+        switch(choice) {
+            case 1: cin >> value; q.enqueue(value); break;
+            case 2: q.dequeue(); break;
+            case 3: cout << q.peek() << endl; break;
+            case 4: q.display(); break;
+            case 5: return 0;
+        }
+    }
+}

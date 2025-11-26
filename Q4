@@ -1,0 +1,16 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    vector<char> input = {'a','a','b','c'};
+    queue<char> q;
+    vector<int> freq(26,0);
+
+    for(char ch : input) {
+        freq[ch - 'a']++;
+        q.push(ch);
+        while(!q.empty() && freq[q.front() - 'a'] > 1) q.pop();
+        if(q.empty()) cout << "-1 ";
+        else cout << q.front() << " ";
+    }
+}
