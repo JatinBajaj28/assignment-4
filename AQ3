@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool canBeSorted(queue<int> q) {
+    stack<int> s;
+    int expected = 1;
+    int n = q.size();
+
+    while(!q.empty()) {
+        int curr = q.front(); q.pop();
+
+        while(!s.empty() && s.top() == expected) {
+            s.pop();
+            expected++;
+        }
+
+        if(curr == expected) {
+            expected++;
+        } else {
+            if(!s.empty() && s.top() < curr) return false;
+            s.push(curr);
+        }
+    }
+
+    while(!s.empty()) {
+        if(s.top() != expected) return false;
+        s.pop();
+        expected++;
+    }
+
+    return true;
+}
+
+int main() {
+    queue<int> q;
+    vector<int> arr = {5, 1, 2, 3, 4};
+    for(int x : arr) q.push(x);
+
+    if(canBeSorted(q)) cout << "Yes";
+    else cout << "No";
+}
